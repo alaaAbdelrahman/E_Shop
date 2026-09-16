@@ -49,7 +49,7 @@ namespace Catalog.Products.Models;
             {
                             Price = price;
 
-                AddDomainEvent(new ProductPricedChangedEvent(this));
+                AddDomainEvent(new ProductPriceChangedEvent(this));
             }
         }
         

@@ -1,7 +1,12 @@
+using Basket.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Builder;
+using Shared.Data.Interceptors;
+using Shared.Extensions;
+using  Basket.Data;
 
 
 namespace Basket;
@@ -10,15 +15,27 @@ namespace Basket;
     {
         public static IServiceCollection AddBasketModule(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddScoped<IBasketService, BasketService>();
-            //services.AddScoped<IBasketRepository, BasketRepository>();
+        //services.AddScoped<IBasketService, BasketService>();
+        //services.AddScoped<IBasketRepository, BasketRepository>();
 
-            return services;
+        var connectionString = configuration.GetConnectionString("Database");
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+        services.AddDbContext<BaketDbContext>((sp, options) =>
+        {
+            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+            options.UseNpgsql(connectionString);
+        });
+
+        return services;
         }
 
         public static WebApplication   UseBasketModule(this WebApplication app)
         {
-            return app;
+
+        app.UseMigrations<BaketDbContext>();
+
+        return app;
         }
         
     }

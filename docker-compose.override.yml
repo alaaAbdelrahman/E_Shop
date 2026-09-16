@@ -1,0 +1,22 @@
+services:
+  eshopdb:
+    container_name: eshopdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=eshopdb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_eshopdb:/var/lib/postgresql/data
+
+  seq:
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=YourStrongPassword123!
+    ports:
+      - "5341:80"
+
+volumes:
+  postgres_eshopdb:
