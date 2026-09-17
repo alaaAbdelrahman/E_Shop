@@ -1,5 +1,6 @@
 ﻿using Basket.Basket.Models;
 using Basket.Data;
+using Basket.Data.Repository;
 using Basket.Dtos;
 using FluentValidation;
 using Shared.CQRS;
@@ -23,7 +24,7 @@ public class CreateBasketCommandValidator : AbstractValidator<CreateBasketComman
         RuleFor(x=>x.ShoppingCart.UserName).NotEmpty().WithMessage("UserName is Empty");
     }
 }
-internal class CreatBasketHandler (BaketDbContext dbContext): ICommandHandler<CreateBasketCommand, CreateBasketResult>
+internal class CreatBasketHandler (IBasketRepository basketRepository): ICommandHandler<CreateBasketCommand, CreateBasketResult>
 {
     public async Task<CreateBasketResult> Handle(CreateBasketCommand command, CancellationToken cancellationToken)
     {
@@ -31,9 +32,8 @@ internal class CreatBasketHandler (BaketDbContext dbContext): ICommandHandler<Cr
         // save to database 
         // return result
 
-        var shoppingCart= CreateNewBasket(command.ShoppingCart);
-        dbContext.ShoppingCarts.Add(shoppingCart);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        var shoppingCart = CreateNewBasket(command.ShoppingCart);
+        await basketRepository.CreatBasket(shoppingCart, cancellationToken);
         return new CreateBasketResult(shoppingCart.Id);
     }
 

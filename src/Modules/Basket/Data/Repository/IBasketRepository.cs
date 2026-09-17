@@ -1,0 +1,17 @@
+﻿using Basket.Basket.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Basket.Data.Repository;
+
+public  interface IBasketRepository
+{
+    Task<ShoppingCart> GetBasket(string userName, bool AsNoTracking = true, CancellationToken cancellationToken);
+    Task<ShoppingCart> CreatBasket(ShoppingCart shoppingCart, CancellationToken cancellationToken);
+    Task<bool> DeleteBasket(string userName, CancellationToken cancellationToken);
+
+    Task<int> SaveChangesAsync(CancellationToken cancellation = default);
+}

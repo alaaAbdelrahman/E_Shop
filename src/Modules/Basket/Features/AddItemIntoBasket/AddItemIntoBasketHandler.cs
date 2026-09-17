@@ -1,4 +1,5 @@
 ﻿using Basket.Data;
+using Basket.Data.Repository;
 using Basket.Dtos;
 using Basket.Exceptions;
 using FluentValidation;
@@ -32,16 +33,14 @@ public class AddItemIntoBasketCommandValidator :
 }
 
 
-internal class AddItemIntoBasketHandler(BaketDbContext dbContext)
+internal class AddItemIntoBasketHandler(IBasketRepository basketRepository)
     : ICommandHandler<AddItemIntoBasketCommand, AddItemIntoBasketResult>
 {
     public async Task<AddItemIntoBasketResult> Handle(AddItemIntoBasketCommand command, CancellationToken cancellationToken)
     {
-        var shoppingCart = await dbContext.ShoppingCarts
-            .Include(x=>x.Items)
-            .SingleOrDefaultAsync(x=>x.UserName == command.UserName,cancellationToken);
-
-        if(shoppingCart is null)
+       
+         var shoppingCart = await basketRepository.GetBasket(command.UserName,true, cancellationToken);
+        if (shoppingCart is null)
         {
             throw new BasketNotFoundException(command.UserName);
         }
@@ -55,8 +54,7 @@ internal class AddItemIntoBasketHandler(BaketDbContext dbContext)
 
             );
 
-        await dbContext.SaveChangesAsync(cancellationToken);
-
+        await basketRepository.SaveChangesAsync();
         return new  AddItemIntoBasketResult(shoppingCart.Id);
 
 

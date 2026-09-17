@@ -1,4 +1,5 @@
 ﻿using Basket.Data;
+using Basket.Data.Repository;
 using Basket.Dtos;
 using Basket.Exceptions;
 using Mapster;
@@ -17,15 +18,12 @@ public record GetBasketQuery(string UserName)
 public record GetBasketResult(ShoppingCartDto ShoppingCart);
 
 
-internal class GetBasketHandler(BaketDbContext dbContext)
+internal class GetBasketHandler( IBasketRepository basketRepository)
     : IQueryHandler<GetBasketQuery, GetBasketResult>
 {
     public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
     {
-        var basket = await dbContext.ShoppingCarts
-                    .AsNoTracking()
-                    .Include(x => x.Items)
-                    .SingleOrDefaultAsync(x => x.UserName == query.UserName, cancellationToken);
+        var basket = await basketRepository.GetBasket(query.UserName,true , cancellationToken);
         if (basket is null)
         {
             throw new BasketNotFoundException(query.UserName);

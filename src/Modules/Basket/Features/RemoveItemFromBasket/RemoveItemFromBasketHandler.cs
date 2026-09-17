@@ -1,4 +1,5 @@
 ﻿using Basket.Data;
+using Basket.Data.Repository;
 using Basket.Exceptions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -25,20 +26,18 @@ public class RemoveItemFromBasketCommandValidator : AbstractValidator<RemoveItem
         RuleFor(x => x.ProductId).NotEmpty().WithMessage("ProductId is Required");
     }
 }
-internal class RemoveItemFromBasketHandler(BaketDbContext dbContext)
+internal class RemoveItemFromBasketHandler(IBasketRepository basket)
     : ICommandHandler<RemoveItemFromBasketCommand, RemoveItemFromBasketResult>
 {
     public async  Task<RemoveItemFromBasketResult> Handle(RemoveItemFromBasketCommand Command, CancellationToken cancellationToken)
     {
-        var shoppingCart = await dbContext.ShoppingCarts
-                .Include(x => x.Items)
-                .SingleOrDefaultAsync(x => x.UserName == Command.UserName, cancellationToken);
+        var shoppingCart = await basket.GetBasket(Command.UserName,false,cancellationToken);
         if (shoppingCart is null) {
             throw new BasketNotFoundException(Command.UserName);
         }
         shoppingCart.RemoveItem(Command.ProductId);
 
-        await dbContext.SaveChangesAsync();
+        await basket.SaveChangesAsync();
         return new RemoveItemFromBasketResult(shoppingCart.Id);
 
     }
