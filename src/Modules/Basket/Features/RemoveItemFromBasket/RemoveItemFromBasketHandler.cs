@@ -37,7 +37,7 @@ internal class RemoveItemFromBasketHandler(IBasketRepository basket)
         }
         shoppingCart.RemoveItem(Command.ProductId);
 
-        await basket.SaveChangesAsync();
+        await basket.SaveChangesAsync(Command.UserName,cancellationToken);
         return new RemoveItemFromBasketResult(shoppingCart.Id);
 
     }

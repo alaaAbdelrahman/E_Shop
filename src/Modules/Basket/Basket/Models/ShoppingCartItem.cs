@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Basket.Basket.Models;
@@ -27,5 +28,22 @@ public  class ShoppingCartItem:Entity<Guid>
         Color = color;
         ProductName = productName;
         Price = price;
+    }
+
+    [JsonConstructor]
+    internal ShoppingCartItem(Guid id ,Guid shoppingCartId, Guid productId, int quantity, string color, string productName, decimal price)
+    {
+        Id = id;
+        ShoppingCartId = shoppingCartId;
+        ProductId = productId;
+        Quantity = quantity;
+        Color = color;
+        ProductName = productName;
+        Price = price;
+    }
+
+    internal void UpdateQuantity(int quantity)
+    {
+        Quantity += quantity;
     }
 }

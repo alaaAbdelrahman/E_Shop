@@ -4,6 +4,9 @@ services:
     volumes:
       - postgres_eshopdb:/var/lib/postgresql/data
 
+  distributedcache:
+    image: redis
+
   seq:
     image: datalust/seq:latest
     environment:

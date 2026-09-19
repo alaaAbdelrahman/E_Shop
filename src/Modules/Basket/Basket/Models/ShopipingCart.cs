@@ -29,28 +29,38 @@ public class ShoppingCart:Aggregate<Guid>
 
     }
 
-    public void AddItem(Guid productId, int quantity, string color, string productName, decimal price)
+    public void AddItem(
+        Guid productId,
+        int quantity,
+        string color,
+        string productName,
+        decimal price)
     {
         ArgumentException.ThrowIfNullOrEmpty(productName);
         ArgumentException.ThrowIfNullOrEmpty(color);
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(quantity, 0);
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(price, 0);
-        var existingItem = _items.FirstOrDefault(x => x.ProductId == productId && x.Color == color);
+
+        var existingItem = _items.FirstOrDefault(
+            x => x.ProductId == productId && x.Color == color);
+
         if (existingItem != null)
         {
-            // If the item already exists in the cart, update the quantity
-            existingItem = new ShoppingCartItem(existingItem.ShoppingCartId, existingItem.ProductId, existingItem.Quantity + quantity, existingItem.Color, existingItem.ProductName, existingItem.Price);
-            _items.Remove(existingItem);
-            _items.Add(existingItem);
+            existingItem.UpdateQuantity(quantity);
         }
         else
         {
-            // If the item does not exist in the cart, add a new item
-            var newItem = new ShoppingCartItem(Id, productId, quantity, color, productName, price);
+            var newItem = new ShoppingCartItem(
+                Id,
+                productId,
+                quantity,
+                color,
+                productName,
+                price);
+
             _items.Add(newItem);
         }
     }
-
     public void RemoveItem(Guid productId)
     {
         var existingItem = _items.FirstOrDefault(x => x.ProductId == productId );

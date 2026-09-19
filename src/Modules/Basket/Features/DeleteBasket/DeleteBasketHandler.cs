@@ -22,13 +22,11 @@ internal class DeleteBasketHandler(IBasketRepository basketRepository)
 {
     public async Task<DeleteBasketResult> Handle(DeleteBasketCommand command, CancellationToken cancellationToken)
     {
-        var basket = await basketRepository.GetBasket(command.UserName,true, cancellationToken);
-        if (basket is null) { 
-            throw new BasketNotFoundException(command.UserName);
         
-        }
-        basketRepository.DeleteBasket(basket.UserName, cancellationToken);
-        await basketRepository.SaveChangesAsync(cancellationToken);
+        
+        await basketRepository.DeleteBasket(command.UserName, cancellationToken);
+
+        await basketRepository.SaveChangesAsync();
         return new DeleteBasketResult(true);
     }
 }

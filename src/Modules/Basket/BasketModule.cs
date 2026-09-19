@@ -8,6 +8,7 @@ using Shared.Data.Interceptors;
 using Shared.Extensions;
 using  Basket.Data;
 using Basket.Data.Repository;
+using Microsoft.Extensions.Caching.Distributed;
 
 
 namespace Basket;
@@ -20,7 +21,7 @@ namespace Basket;
 
         // 2, application services
         services.AddScoped<IBasketRepository, BasketRepository>();
-
+        services.Decorate<IBasketRepository, CachedBasketRepository>();
         // 3. DATA - Infrastructure Services 
         var connectionString = configuration.GetConnectionString("Database");
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();

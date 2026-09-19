@@ -7,11 +7,11 @@ namespace Basket.Data.Repository;
 public class BasketRepository(BaketDbContext context)
     : IBasketRepository
 {
-    public async Task<ShoppingCart> CreatBasket(ShoppingCart  basket,bool asNoTracking = true , CancellationToken cancellationToken)
+    public async Task<ShoppingCart> CreatBasket(ShoppingCart basket, CancellationToken cancellationToken)
     {
         context.ShoppingCarts.Add(basket);
         await context.SaveChangesAsync(cancellationToken);
-        return basket; 
+        return basket;
     }
 
     public async Task<bool> DeleteBasket(string userName, CancellationToken cancellationToken)
@@ -38,12 +38,18 @@ public class BasketRepository(BaketDbContext context)
         }
 
         var basket = await query.SingleOrDefaultAsync(cancellationToken);
-        return basket ;
+        if (basket is null)
+        {
+            throw new BasketNotFoundException(userName);
+        }
+        return basket;
+
     }
 
-    public Task<int> SaveChangesAsync(CancellationToken cancellation = default)
+    public Task<int> SaveChangesAsync(string ? userNmae = null , CancellationToken cancellation = default)
     {
         return context.SaveChangesAsync(cancellation);
     }
 
-    
+
+}

@@ -7,6 +7,8 @@ using Ordering;
 using Serilog;
 using Shared.Exceptions.Handler;
 using Shared.Extensions;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.DependencyInjection; // Add this using directive at the top
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,13 @@ builder.Services.AddValidatorsFromAssemblies(
     basketAssembly]
 );
 
+
+builder.Services.AddStackExchangeRedisCache(
+    options=>
+    {
+        options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    }
+    );
 builder.Services
     .AddCatalogModule(builder.Configuration)
     .AddBasketModule(builder.Configuration)
