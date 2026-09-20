@@ -1,8 +1,9 @@
-﻿using Catalog.Data;
-using Catalog.Products.Dtos;
+﻿using Catalog.Contracts.Products;
+using Catalog.Contracts.Products.Features.GetProductById;
+using Catalog.Data;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,9 @@ using System.Threading.Tasks;
 
 namespace Catalog.Products.Features.GetProductById;
 
-public record GetProductById(Guid ProductId) : IQuery<GetProductByIdResult>;
-public record GetProductByIdResult(ProductDto ProductDto);
-internal class GetProductByIdHandler(CatalogDbContext dbContext) : IQueryHandler<GetProductById, GetProductByIdResult>
+internal class GetProductByIdQueryHandler(CatalogDbContext dbContext) : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
 {
-    public async Task<GetProductByIdResult> Handle(GetProductById request, CancellationToken cancellationToken)
+    public async Task<GetProductByIdResult> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         var product = await dbContext.Products
             .AsNoTracking()

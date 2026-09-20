@@ -3,7 +3,7 @@ using Basket.Data.Repository;
 using Basket.Exceptions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Shared.CQRS;
 using System;
 using System.Collections.Generic;
 using System.Linq;

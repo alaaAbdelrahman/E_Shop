@@ -3,7 +3,7 @@ using Basket.Data;
 using Basket.Data.Repository;
 using Basket.Dtos;
 using FluentValidation;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 using System;
 using System.Collections.Generic;
 using System.Linq;

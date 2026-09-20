@@ -1,9 +1,9 @@
-﻿using Catalog.Data;
-using Catalog.Products.Dtos;
+﻿using Catalog.Contracts.Products;
+using Catalog.Data;
 using Catalog.Products.Models;
 using FluentValidation;
 using MediatR;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 using System;
 using System.Collections.Generic;
 using System.Linq;

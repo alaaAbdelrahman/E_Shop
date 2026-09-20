@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Data.Interceptors;
 using Shared.Extensions;
-using  Basket.Data;
 using Basket.Data.Repository;
 using Microsoft.Extensions.Caching.Distributed;
 

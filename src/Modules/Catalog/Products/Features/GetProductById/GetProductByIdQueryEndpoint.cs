@@ -1,5 +1,6 @@
 ﻿using Carter;
-using Catalog.Products.Dtos;
+using Catalog.Contracts.Products;
+using Catalog.Contracts.Products.Features.GetProductById;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -14,15 +15,15 @@ using System.Threading.Tasks;
 namespace Catalog.Products.Features.GetProductById;
 
 public record GetProductByIdResponse(ProductDto Product);
-public class GetProductByIdEndpoint : ICarterModule
+public class GetProductByIdQueryEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/products/{productId:guid}", async (Guid productId, ISender sender) =>
          {
-                    var result = await sender.Send(new GetProductById(productId));
-                var response = result.Adapt<GetProductByIdResponse>();
-                return Results.Ok(response);
+                    var result = await sender.Send(new GetProductByIdQuery(productId));
+             var response = new GetProductByIdResponse(result.ProductDto);
+             return Results.Ok(response);
          }).WithName("GetProductById")
            .Produces<GetProductByIdResponse>(StatusCodes.Status200OK)
            .Produces(StatusCodes.Status404NotFound)

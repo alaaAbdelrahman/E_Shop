@@ -14,7 +14,6 @@
     <PackageReference Include="Mapster.Core" Version="10.0.11" />
     <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Mapster.EFCore" Version="10.0.11" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.7" />
@@ -36,5 +35,8 @@
 </ItemGroup>
 <ItemGroup>
     <Folder Include="DDD\" />
+</ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\Shared.Contracts\Shared.Contracts.csproj" />
 </ItemGroup>
 </Project>

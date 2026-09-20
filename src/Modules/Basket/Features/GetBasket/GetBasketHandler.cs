@@ -4,7 +4,7 @@ using Basket.Dtos;
 using Basket.Exceptions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 using System;
 using System.Collections.Generic;
 using System.Linq;

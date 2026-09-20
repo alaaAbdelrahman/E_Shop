@@ -1,10 +1,9 @@
-﻿using Catalog.Data;
-using Catalog.Products.Dtos;
-using Catalog.Products.Models;
+﻿using Catalog.Contracts.Products;
+using Catalog.Data;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 using Shared.Pagination;
 using System;
 using System.Collections.Generic;

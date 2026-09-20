@@ -1,5 +1,5 @@
 ﻿using Catalog.Data;
-using Shared.CQRS;
+using Shared.Contracts.CQRS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
