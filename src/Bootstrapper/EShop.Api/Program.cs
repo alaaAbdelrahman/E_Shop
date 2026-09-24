@@ -8,7 +8,8 @@ using Serilog;
 using Shared.Exceptions.Handler;
 using Shared.Extensions;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.Extensions.DependencyInjection; // Add this using directive at the top
+using Microsoft.Extensions.DependencyInjection;
+using Shared.Messaging.Extensions; // Add this using directive at the top
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,11 @@ builder.Services.AddStackExchangeRedisCache(
     {
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
     }
+    );
+
+builder.Services.AddMassTransitWithAssemblies(
+    catalogAssembly,
+    basketAssembly
     );
 builder.Services
     .AddCatalogModule(builder.Configuration)

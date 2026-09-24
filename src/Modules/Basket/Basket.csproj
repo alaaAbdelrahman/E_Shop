@@ -7,19 +7,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\CheckoutBasket\**" />
+    <EmbeddedResource Remove="Features\CheckoutBasket\**" />
+    <None Remove="Features\CheckoutBasket\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared.Contracts\Shared.Contracts.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared.Messaging\Shared.Messaging.csproj" />
     <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
     <ProjectReference Include="..\Catalog.Contracts\Catalog.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
-    <Folder Include="EventHandlers\" />
-    <Folder Include="Features\CheckoutBasket\" />
-    <Folder Include="Features\UpdateItemPriceInBasket\" />
   </ItemGroup>
 
   <ItemGroup>

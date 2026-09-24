@@ -46,4 +46,9 @@ public  class ShoppingCartItem:Entity<Guid>
     {
         Quantity += quantity;
     }
+
+    internal void updatePrice(decimal newPrice)
+    {
+        Price = newPrice;
+    }       
 }
