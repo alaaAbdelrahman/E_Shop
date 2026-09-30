@@ -25,5 +25,13 @@ services:
     ports:
       - "5341:80"
 
+  messagebus:
+    container_name: messagebus
+    hostname: ecommerce-mq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
 volumes:
   postgres_eshopdb:

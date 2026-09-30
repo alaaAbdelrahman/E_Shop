@@ -48,6 +48,7 @@ builder.Services.AddStackExchangeRedisCache(
     );
 
 builder.Services.AddMassTransitWithAssemblies(
+    builder.Configuration,
     catalogAssembly,
     basketAssembly
     );
