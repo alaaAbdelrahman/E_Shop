@@ -9,7 +9,8 @@ using Shared.Exceptions.Handler;
 using Shared.Extensions;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
-using Shared.Messaging.Extensions; // Add this using directive at the top
+using Shared.Messaging.Extensions;
+using Keycloak.AuthServices.Authentication; // Add this using directive at the top
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,11 @@ builder.Services.AddMassTransitWithAssemblies(
     catalogAssembly,
     basketAssembly
     );
+
+
+//module services: catalog,basket,ordering
+builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
 builder.Services
     .AddCatalogModule(builder.Configuration)
     .AddBasketModule(builder.Configuration)
@@ -65,11 +71,15 @@ builder.Host.UseSerilog((context, config) =>
 var app = builder.Build();
 
 app.MapCarter();
-app.UseExceptionHandler(options => { });
 app.UseSerilogRequestLogging();
+app.UseExceptionHandler(options => { });
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.UseCatalogModule();
 app.UseBasketModule();  
 app.UseOrderingModule();
+
 
 app.Run();

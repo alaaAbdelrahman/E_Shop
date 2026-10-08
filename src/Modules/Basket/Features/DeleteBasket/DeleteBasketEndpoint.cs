@@ -20,10 +20,13 @@ public class DeleteBasketEndpoint: ICarterModule
         {
             var command = new DeleteBasketCommand(userName);
             var response = await sender.Send(command);
-            return   Results.Ok(response);
+            return Results.Ok(response);
         }).Produces<DeleteBasketResponse>(StatusCodes.Status200OK)
           .ProducesProblem(StatusCodes.Status404NotFound)
           .WithSummary("Deletes a shopping basket")
-          .WithDescription("This endpoint allows you to delete a shopping basket.");
+          .WithDescription("This endpoint allows you to delete a shopping basket.")
+          .RequireAuthorization();
     }
+
+    
 }

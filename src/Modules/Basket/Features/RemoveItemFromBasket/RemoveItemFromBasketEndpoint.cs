@@ -27,7 +27,9 @@ public class RemoveItemFromBasketEndpoint : ICarterModule
         }).Produces<RemoveItemFromBasketResponse>(StatusCodes.Status200OK)
           .ProducesProblem(StatusCodes.Status404NotFound)
           .WithSummary("Removes an item from a shopping basket")
-          .WithDescription("This endpoint allows you to remove an item from a shopping basket.");
+          .WithDescription("This endpoint allows you to remove an item from a shopping basket.")
+                    .RequireAuthorization();
+
     }
 }
 

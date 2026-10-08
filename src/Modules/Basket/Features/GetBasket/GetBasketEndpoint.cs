@@ -25,6 +25,8 @@ public class GetBasketEndpoint : ICarterModule
         }).Produces<ShoppingCartDto>(StatusCodes.Status200OK)
           .ProducesProblem(StatusCodes.Status404NotFound)
           .WithSummary("Retrieves a shopping basket")
-          .WithDescription("This endpoint allows you to retrieve a shopping basket.");
+          .WithDescription("This endpoint allows you to retrieve a shopping basket.")
+            .RequireAuthorization();
+
     }
 }
