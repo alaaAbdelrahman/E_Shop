@@ -18,10 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
 // common services: carter , mediator , fluentvalidation, logging, exception handling
 var catalogAssembly = typeof(CatalogModule).Assembly;
  var basketAssembly = typeof(BasketModule).Assembly;
+var orderingAssembly = typeof(OrderingModule).Assembly;
 
 builder.Services.AddCarterWithAssemblies(
     catalogAssembly,
-    basketAssembly
+    basketAssembly,
+    orderingAssembly
     );
 
 
@@ -29,7 +31,8 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssemblies(
         catalogAssembly,
-        basketAssembly
+        basketAssembly,
+        orderingAssembly
         );
     cfg.AddOpenBehavior(typeof(Shared.Behaviors.ValidationBehavior<,>));
     cfg.AddOpenBehavior(typeof(Shared.Behaviors.LoggingBehavior<,>));
@@ -37,7 +40,8 @@ builder.Services.AddMediatR(cfg =>
 
 builder.Services.AddValidatorsFromAssemblies(
     [catalogAssembly,
-    basketAssembly]
+    basketAssembly,
+    orderingAssembly]
 );
 
 
@@ -51,7 +55,8 @@ builder.Services.AddStackExchangeRedisCache(
 builder.Services.AddMassTransitWithAssemblies(
     builder.Configuration,
     catalogAssembly,
-    basketAssembly
+    basketAssembly,
+    orderingAssembly
     );
 
 
